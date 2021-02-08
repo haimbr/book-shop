@@ -1,0 +1,8 @@
+html{
+    direction: rtl;
+}
+
+.main-body-content{
+    height: 1500px;
+    width: 100%;
+}

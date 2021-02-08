@@ -1,0 +1,155 @@
+
+
+
+
+*{
+    direction: rtl;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+.logo-icon{
+    vertical-align: top;
+    height: 35px;
+    width: 35px;
+    margin: 20px 20px 0px 0px;
+}
+
+.main-header{
+    height: 100px;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    background-color: white;
+}
+
+.main-header div, .main-header p, .main-header h5, .main-header .search-form{
+    display: inline-block;
+    height: 50px;
+    vertical-align: middle;
+    margin: 10px 10px 10px 10px;
+}
+.main-header h5{
+    margin-left: 0px;
+}
+.main-header h4{
+    display: inline-block;
+    position: relative;
+    left: 10px;
+    vertical-align: -webkit-baseline-middle;
+    font-size: 21px;
+}
+
+
+.header__main-content{
+    float: left;
+    vertical-align: bottom;
+}
+
+
+.registered-user{
+    display: none;
+}
+
+.search-box-container{
+    background-color: #6658a9;
+    margin-left: 25px;
+}
+
+
+.search-box{
+    background-color: #e3def8;
+    color: black;
+    font-size: 1.2rem;
+    font-weight: 500;
+    height: 100%;
+    width: 30vw;
+    border: none;
+}
+
+.search-box:focus
+{
+    outline: none;
+}
+
+.submit-search{
+    background-color: inherit;
+    border: none;
+    width: 40px;
+    cursor: pointer;
+}
+
+
+.shopping-cart{
+    margin: 10px;
+}
+
+.shopping-cart img{
+    height: 30px;
+    margin: auto;
+    position: relative;
+    left: 20px;
+}
+
+.shopping-cart-count{
+    text-align: center;
+    color: white;
+    z-index: 10;
+    background-color: #ff8800;
+    height: 20px !important;
+    width: 20px;
+    border-radius: 50%;
+    position: absolute;
+    margin: 1px 0px !important;
+}
+
+.shopping-cart p{
+    position: relative;
+    padding: 7px 0px;
+    left: 8px;
+    font-size: 16px;
+}
+
+
+.main-nav{
+    /* height: 7vh; */
+    display: inline-table;
+    background-color: inherit;
+    width: 100%;
+    margin: 0px !important;
+    border-top: 1px solid #f3f3f3;
+}
+
+.main-nav ul{
+    text-align: center;
+}
+
+.main-nav li{
+    cursor: pointer;
+    display: inline-block;
+    padding: 1vw;
+    color: #1c9bcf;
+}
+
+.main-nav li:hover{
+    display: inline-block;
+    padding: 1vw;
+    color: #ff8800;
+    border-bottom: 1px solid #ff8800;
+}
+
+.main-nav a{
+    color: inherit;
+    text-decoration: none;
+    border-bottom: none;
+}
+
+
+
+.main-content{
+    height: 2400px;
+    width: 100%;
+    background-color: #f0f1f3;
+}
+
