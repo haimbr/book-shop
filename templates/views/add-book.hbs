@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hhh</h1>
+
+    <form action="/add-book" method="POST" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="name">
+        <input type="text" name="description" placeholder="description">
+        <input type="text" name="author" placeholder="author">
+        <input type="text" name="price" placeholder="price"><br>
+        <label>קטגוריה 1</label>
+        <input type="checkbox" name="categories" value="קטגוריה1"><br>
+        <label>קטגוריה 2</label>
+        <input type="checkbox" name="categories" value="קטגוריה 2"><br>
+        <label>קטגוריה 3</label>
+        <input type="checkbox"name="categories" value="קטגוריה 3"><br>
+        <input type="file" name="img">
+        <button type="submit">submit</button>
+    </form>
+</body>
+</html>

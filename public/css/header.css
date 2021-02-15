@@ -37,8 +37,58 @@
     display: inline-block;
     position: relative;
     left: 10px;
-    vertical-align: -webkit-baseline-middle;
+    vertical-align: bottom;
     font-size: 21px;
+}
+
+
+.login-and-signup i {
+    cursor: pointer;
+}
+
+
+.registered-user{
+    display: none;
+    cursor: pointer;
+    display: inline-block;
+    height: 30px;
+    margin-left: 1vw;
+    border: 1px solid #c6c6c6;
+    border-radius: 15px;
+    vertical-align: middle;
+    position: relative;
+}
+
+.registered-user h5{
+    margin: 6px 6px 6px 0px;
+}
+
+.registered-user img {
+    display: inline-block;
+    height: 8px;
+    cursor: pointer;
+    margin: 10px;
+    vertical-align: top;
+}
+
+.logout-button{
+    display: none;
+    font-size: 18px;
+    font-weight: bold;
+    position: absolute;
+    margin-top: 30px;
+    border: 1px solid #c1d8e1;
+    border-radius: 13px;
+    padding: 10px 0px;
+    text-align: center;
+    background-color: white;
+    cursor: pointer;
+    width: 100%;
+}
+
+
+.logout-button:hover{
+    color: #37a7d5;
 }
 
 
@@ -47,10 +97,6 @@
     vertical-align: bottom;
 }
 
-
-.registered-user{
-    display: none;
-}
 
 .search-box-container{
     background-color: #6658a9;
@@ -114,7 +160,7 @@
 
 .main-nav{
     /* height: 7vh; */
-    display: inline-table;
+    display: inline-table !important;
     background-color: inherit;
     width: 100%;
     margin: 0px !important;

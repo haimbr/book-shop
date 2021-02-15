@@ -1,9 +1,35 @@
 const express = require('express');
 const User = require('../models/userModel');
-const auth = require('../middleware/auth');
+const { auth, checkUser } = require('../middleware/auth');
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account');
 
 const router = new express.Router();
+
+
+const handleErrors = (err) => {
+    let errors = { email: '', password: '' };
+    if (err.code === 11000) {
+        errors.email = 'that email is already registered';
+        return errors;
+    }
+    if (err.message.includes('User validation failed')) {
+        Object.values(err.errors).forEach(({ properties }) => {
+            errors[properties.path] = properties.message;
+        });
+    }
+
+    // incorrect email
+    if (err.message === 'incorrect email') {
+        errors.email = 'That email is not registered';
+    }
+
+    // incorrect password
+    if (err.message === 'incorrect password') {
+        errors.password = 'That password is incorrect';
+    }
+
+    return errors;
+}
 
 router.post('/users/signUp', async (req, res) => {
     const user = new User(req.body);
@@ -12,14 +38,41 @@ router.post('/users/signUp', async (req, res) => {
         await user.save();
         sendWelcomeEmail(user.email, user.name);
         const token = await user.generateAuthToken();
+        res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 60 * 60 * 1000})
         res.status(201).send({ user, token });
     } catch (err) {
-        if(err.code === 11000 ){
-            return res.status(409).send() 
-        }
-        res.status(400).send();
+        const errors = handleErrors(err);
+        res.status(400).send({ errors });
     }
 })
 
+
+
+router.post('/users/login', async (req, res) => {
+    const user = new User(req.body);
+
+    try {
+        const user = await User.findByCredentials(req.body.email, req.body.password)
+        const token = await user.generateAuthToken();
+        res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 60 * 60 * 1000});
+        res.send({ user, token });
+    } catch (err) {
+        const errors = handleErrors(err);
+        res.status(400).send({ errors });
+    }
+})
+
+router.post('/users/logout', auth, async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter((token) => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+        res.cookie('jwt', '', {maxAge: 1});
+        res.send()
+    } catch (e) {
+        res.status(500).send()
+    }
+})
 
 module.exports = router;

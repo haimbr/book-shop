@@ -21,13 +21,20 @@ const bookSchema = new mongoose.Schema({
 
     description: {
         type: String,
-    },
+        required: true,
+        lowercase: true,
+    }, 
 
     img: {
         type: Buffer
-    }
+    },
+
+    categories: [String]
+    
+},{
+    timestamps: true
 })
 
-const Book = new mongoose.Model('Book', bookSchema);
+const Book = new mongoose.model('Book', bookSchema);
 
 module.exports = Book;

@@ -3,15 +3,40 @@
     <div class="main-header">
         <img class="logo-icon" src="img/logo.png" alt="logo">
         <h4>book-shop</h4>
-        <div class="login-and-signup">
-            <h5> שלום אורח! </h5>
-            <p><i>כניסה לחשבון </i><i> / הרשמה </i></p>
-        </div>
-
-        <div class="registered-user"></div>
+        {{!-- <div class="login-and-signup">          
+            <span class="registered-user">
+                <span class="logout-button">התנתקות</span>
+                {{#if user.userName}}
+                    <h5> שלום {{user.userName}}</h5>
+                {{/if}}
+                <img src="./img/down.png" alt="down icon" />
+            </span>
+        
+            <span class="unregistered-user">
+                <h5> שלום אורח !</h5>
+                <p><i>כניסה לחשבון </i><i> / הרשמה </i></p>
+            </span>
+        </div> --}}
+ 
+        
 
         <div class="header__main-content">
+            <div class="login-and-signup">    
+                <span class="registered-user">
+                    <span class="logout-button" >התנתקות</span>
+                    <span class="user-name">
+                        {{#if user.userName}}
+                            <h5 class="user-logged-in"> שלום {{user.userName}}</h5>
+                        {{/if}}
+                    </span>
+                    <img src="./img/down.png" alt="down icon" />
+                </span>
             
+                <span class="unregistered-user">
+                    <h5> שלום אורח !</h5>
+                    <p><i>כניסה לחשבון </i><i> / הרשמה </i></p>
+                </span>
+            </div>  
 
             <div class="search-box-container">
                 <input type="text" placeholder="חיפוש" class="search-box">
@@ -46,9 +71,5 @@
             </ul>
         </div>
     </div>
-
-    <a href="/">Weather</a>
-    <a href="/about">About</a>
-    <a href="/help">Help</a>
     <script src="/js/header.js"></script>
 </header>

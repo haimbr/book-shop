@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+const { isEmail } = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
@@ -12,20 +12,21 @@ const userSchema = new mongoose.Schema({
     email: {
         type: String,
         unique: true,
-        required: true,
+        required: [true, 'Please enter an email'],
         trim: true,
         lowercase: true,
-        validate(value) {
-            if(!validator.isEmail(value)){
-                throw new Error('Email is invalid')
-            }
-        }
+        validate: [isEmail, 'Please enter a valid email']
     },
 
     password: {
         type: String,
-        required: true,
-        minlength: 6,
+        required: [true, 'Please enter a password'],
+        minlength: [6, 'Minimum password length is 6 characters'],
+    },
+
+    isAdmin:{
+        type:  Boolean,
+        default: false,
     },
 
     shoppingCart: [{
@@ -48,15 +49,20 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.methods.toJSON = function(){
-    const user = this.toObject();
-    // Extracts the desired values from the use object
-    return (({ email, userName, shoppingCart }) => ({ email, userName, shoppingCart }))(user);
+    const userObject = this.toObject();
+    delete userObject.password;
+    delete userObject.tokens;
+    delete userObject.createdAt;
+    delete userObject.updatedAt;
+    delete userObject.__v;
+   
+    return userObject;
 }
 
 
 userSchema.methods.generateAuthToken = async function (){
     const user = this;
-    const token = jwt.sign({ _id: user._id.toString() }, process.env.JWT_SECRET);
+    const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 });
 
     user.tokens = user.tokens.concat({ token });
     await user.save()
@@ -68,12 +74,12 @@ userSchema.methods.generateAuthToken = async function (){
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email });
     if (!user) {
-        throw new Error('Unable to login');
+        throw new Error('incorrect email');
     };
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!user){
-        throw new Error('Unable to login');
+    if (!isMatch){
+        throw new Error('incorrect password');
     }
     
     return user;
@@ -91,13 +97,6 @@ userSchema.pre('save', async function (next) {
     next()
 })
 
-
-// Delete user tasks when user is removed
-userSchema.pre('remove', async function (next) {
-    const user = this
-    await Task.deleteMany({ owner: user._id })
-    next()
-})
 
 const User = new mongoose.model('User', userSchema);
 
