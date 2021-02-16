@@ -38,8 +38,8 @@ app.get('/', async (req, res) =>{
     try{
         const books = await Book.find({}).limit(20);
         books.forEach(book => book.img = `data:image/png;base64,${book.img.toString('base64')}`);
-        res.render('index', {books})
-        // res.render('index')
+        // res.render('index', {books})
+        res.render('index')
     }catch(e){  
         console.log(e) 
         res.status(400).send({message: err.message});
