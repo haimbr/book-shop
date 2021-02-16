@@ -1,6 +1,6 @@
 import {logIn} from './utils/login.js';
 import {signUp} from './utils/signup.js';
-import {logOut} from './utils/logOut.js';
+import {logOut} from './utils/logout.js';
 
 
 
