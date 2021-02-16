@@ -9,12 +9,29 @@
 </head>
 <body>
     {{>header}}
-    <div class="main-body-content">
-        
-    </div>
-    
     {{>login}}
     {{>signup}}
+
+    <div class="main-body-content">
+        <h2 class="main-content-header">
+            <span>הנמכרים ביותר</span>
+        </h2>
+        <ul class="books_list">
+            {{#each books}}
+                <div class="book-element">
+                    <a href=""><img src="{{this.img}}" alt="book-img"></a>
+                    <a href=""><h1>{{this.name}}</h1></a>
+                    <h3>{{this.author}}</h3>
+                    <div class="add-to-cart">
+                        <button>קנייה מהירה</button>
+                        <button>הוספה לסל</button>
+                    </div>
+                </div>
+            {{/each}}
+        </ul>
+        
+    </div> 
+
     {{>footer}}
 
     <script  type="module" src="/js/index.js"></script>

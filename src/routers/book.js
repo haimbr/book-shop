@@ -35,7 +35,8 @@ router.post('/add-book', upload.single('img'), async (req, res) => {
 // *********** test ****************
 router.get('/test', async (req, res) => {
     try {
-        const book = await Book.findById('6029491f98296c35a484c7a8');
+        // const book = await Book.findById('6029491f98296c35a484c7a8');
+        const book = await Book.find({}).limit(20);
         img = `data:image/png;base64,${book.img.toString('base64')}`;
         res.render('book', {
             img: img,

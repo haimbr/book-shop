@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 require('./db/mongoose');
 const userRouter = require('./routers/user');
 const bookRouter = require('./routers/book');
+const Book = require('./models/bookModel');
 const { auth, checkUser } = require('./middleware/auth');
 
 const app = express();
@@ -33,10 +34,23 @@ app.use(bookRouter);
 
 app.get('*', checkUser);
 
-app.get('/', (req, res) => res.render('index'));
+app.get('/', async (req, res) =>{
+    try{
+        const books = await Book.find({}).limit(20);
+        books.forEach(book => book.img = `data:image/png;base64,${book.img.toString('base64')}`);
+        res.render('index', {books})
+        // res.render('index')
+    }catch(e){  
+        console.log(e) 
+        res.status(400).send(e);
+    }
+    
+});
+
 app.get('/about', (req, res) => res.render('about'));
+
 app.get('/help', (req, res) => res.render('help'));
-// app.get('/add-book', (req, res) => res.render('add-book'));
+
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port)

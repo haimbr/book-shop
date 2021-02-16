@@ -3,10 +3,38 @@ html{
 }
 
 .main-body-content{
-    height: 1500px;
+    padding: 30px;
+    padding-top: 180px;
+    /* height: 1500px; */
     width: 100%;
     background-color: #f0f1f3;
 }
+
+.main-content-header{
+    width: 100%;
+    text-align: center;
+    position: relative;
+}
+
+.main-content-header::after{
+    content: '';
+    top: 50%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #babbbd;
+    height: 1px;
+    position: absolute;
+}
+
+.main-content-header span{
+    background: #f0f1f3;
+    z-index: 1;
+    position: relative;
+    padding: 0 50px;
+}
+
+
 
 
 .login-container,
@@ -74,7 +102,10 @@ html{
 
 
 
-
+.books_list{
+    display: flex;
+    flex-wrap: wrap;
+}
 
 .book-elements-container{
     background-color: blue;
