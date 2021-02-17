@@ -27,7 +27,6 @@ const handleErrors = (err) => {
     if (err.message === 'incorrect password') {
         errors.password = 'That password is incorrect';
     }
-
     return errors;
 }
 
