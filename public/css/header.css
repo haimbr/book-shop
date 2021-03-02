@@ -5,8 +5,16 @@
 *{
     direction: rtl;
     margin: 0px;
+    padding: 0px;
     box-sizing: border-box;
     font-family: sans-serif;
+}
+
+
+.main-header_container{
+    position: sticky;
+    top: 0px;
+    z-index: 102;
 }
 
 .logo-icon{
@@ -17,11 +25,13 @@
 }
 
 .main-header{
-    height: 100px;
-    position: fixed;
-    z-index: 100;
     width: 100%;
     background-color: white;
+}
+
+.main-header a{
+    text-decoration: none;
+    color: black;
 }
 
 .main-header div, .main-header p, .main-header h5, .main-header .search-form{
@@ -129,6 +139,7 @@
 
 .shopping-cart{
     margin: 10px;
+    cursor: pointer;
 }
 
 .shopping-cart img{
@@ -143,8 +154,9 @@
     color: white;
     z-index: 10;
     background-color: #ff8800;
-    height: 20px !important;
-    width: 20px;
+    padding-top: 3px;
+    height: 22px !important;
+    width: 22px;
     border-radius: 50%;
     position: absolute;
     margin: 1px 0px !important;

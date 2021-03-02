@@ -1,10 +1,12 @@
+@import "shopping-cart.css";
+
 html{
     direction: rtl;
 }
 
 .main-body-content{
     padding: 30px;
-    padding-top: 180px;
+    /* padding-top: 180px; */
     /* height: 1500px; */
     width: 100%;
     background-color: #f0f1f3;
@@ -47,7 +49,7 @@ html{
     height: 100%;
     top: 0px;
     position: fixed;
-    z-index: 101;
+    z-index: 107;
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -61,7 +63,7 @@ html{
 .login-form{
     position: fixed;
     top: 15vh;
-    z-index: 101;
+    z-index: 110;
     left: 32vw;
     width: 36vw;
     margin: 0 auto;
@@ -103,9 +105,11 @@ html{
 
 
 .books_list{
+    padding: 0px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 15px;
 }
 
 .book-elements-container{
@@ -113,10 +117,11 @@ html{
 }
 
 .book-element{
+    text-align: center;
     margin: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 20px;
     flex: auto;
@@ -126,27 +131,32 @@ html{
     border-radius: 20px;
 }
 
+.book-element h1{
+    
+font-size: 20px;
+}
+
 .book-element a{
-    /* margin-top: 35px; */
     text-decoration: none;
     color: rgb(28, 155, 207);
 }
 
 .book-element h3 {
-    margin: 0px;
+    margin: -35px 0px 0px 0px;
+    font-size: 13px;
 }
 
 
 .book-element img{
     height: 160px;
     width: 100px;
-    box-shadow: 0px 10px 20px #adadad;
+    box-shadow: 0px 10px 20px #d1c9c9;
 }
 
 
 
 .add-to-cart{
-    margin-top: 80px;
+    /* margin-top: 80px; */
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -175,3 +185,43 @@ html{
     background-color: rgb(172, 144, 144);
     border: 1px solid rgb(172, 144, 144);
 }
+
+.pagination{
+    direction: ltr;
+    width: 100%;
+    text-align: center;
+}
+
+.pagination-number:hover {
+    background-color: #ff7110;
+}
+
+
+.pagination span{
+    display: inline-block;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.pagination-next{
+    padding: 10px 0px 10px 10px !important;
+    color: #919191;  
+}
+
+.pagination i{
+    color: #919191;
+    vertical-align: middle;
+    position: relative;
+    margin: -2px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.pagination-prev{
+    padding: 10px 10px 10px 0px !important;
+    color: #919191;
+    display: inline-block;
+}
+

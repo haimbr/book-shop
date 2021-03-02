@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>book shop</title>
+    <link rel="shortcut icon" href="/img/logo.png">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    {{>header}}
+    {{>login}}
+    {{>signup}}
+
+    <div class="main-body-content">
+       <div class="shopping-cart-container">
+            <h1>סל הקניות שלי</h1>
+            {{#each books}}
+                <div class="shopping-cart-element">
+                    <img src="{{this.img}}" alt="book-img">
+                    <span class="book-details">
+                        <h2>{{this.name}}</h2>
+                        <h3>{{this.author}}</h3>
+                        <p>{{this.price}} &#8362;</p>
+                    </span> 
+                    <span class="quantity-container">
+                        <p>{{this.quantity}}</p>
+                        <div class="quantity-buttons">
+                            <span>+</span>
+                            <span>-</span>
+                        </div>
+                    </span>     
+                    <span class="remove-book">x</span>                  
+                </div>
+            {{/each}}
+       </div>
+    </div> 
+
+    {{>footer}}
+
+    <script  type="module" src="/js/index.js"></script>
+    <script  type="module" src="/js/utils/shopping-cart.js"></script>
+</body>
+</html>
+

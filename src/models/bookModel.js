@@ -6,12 +6,14 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
         lowercase: true,
+        trim: true
     },
 
     author: {
         type: String,
         required: true,
         lowercase: true,
+        trim: true,
     },
 
     price: {

@@ -1,5 +1,6 @@
 const express = require('express');
 const User = require('../models/userModel');
+const Book = require('../models/bookModel');
 const { auth, checkUser } = require('../middleware/auth');
 const { sendWelcomeEmail, sendCancelationEmail } = require('../emails/account');
 
@@ -71,6 +72,38 @@ router.post('/users/logout', auth, async (req, res) => {
         res.send()
     } catch (e) {
         res.status(500).send()
+    }
+})
+
+
+router.post('/users/update-shoppingCart', async (req, res) => {
+    try {
+        const book = await Book.findOne({ $or: [ {name: req.query.book, author: req.query.author},  {_id: req.query._id} ] });
+        if(!book){
+            throw new Error('Book not found')
+        }
+
+        await checkUser(req, res, ()=>{});
+        if(!res.locals.user){
+            return res.send(book._id);
+        }
+
+        if(req.query.removeAll){
+            res.locals.user.shoppingCart = res.locals.user.shoppingCart.filter(element => element._id !== book._id)
+        }else if(req.query.remove){
+            const index = res.locals.user.shoppingCart.findIndex(item => item._id.toString() === book._id.toString());
+            if (index >= 0) {
+                
+                res.locals.user.shoppingCart.splice(index, 1)
+            }
+        }else{
+            res.locals.user.shoppingCart.push(book);
+        }
+        
+        await res.locals.user.save();
+        res.send(res.locals.user.shoppingCart);
+    }catch(e) {
+        res.status(404).send({message: e.message});
     }
 })
 

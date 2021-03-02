@@ -14,20 +14,39 @@
 
     <div class="main-body-content">
         <h2 class="main-content-header">
-            <span>הנמכרים ביותר</span>
+            <span>{{category}}</span>
         </h2>
         <ul class="books_list">
             {{#each books}}
                 <div class="book-element">
                     <a href=""><img src="{{this.img}}" alt="book-img"></a>
-                    <a href=""><h1>{{this.name}}</h1></a>
-                    <h3>{{this.author}}</h3>
+                    <a href=""><h1 class="book-name">{{this.name}}</h1></a>
+                    <h3 class="book-author">{{this.author}}</h3>
                     <div class="add-to-cart">
-                        <button>קנייה מהירה</button>
+                        <button class="buy-now">קנייה מהירה</button>
                         <button>הוספה לסל</button>
                     </div>
                 </div>
             {{/each}}
+            <div class="pagination">
+                {{#if paginationNav.first}}
+                    <span class="pagination-number">...1</span>
+                {{/if}}
+                {{#if paginationNav.previous}}
+                    <i class="pagination-prev">></i>
+                    <span class="pagination-prev">הקודם</span>
+                {{/if}}
+                {{#each paginationNav.pages}}
+                    <span  class="pagination-number">{{this}}</span>
+                {{/each}}
+                {{#if paginationNav.next}}
+                    <span class="pagination-next">הבא</span>
+                    <i>></i>
+                {{/if}}
+                {{#if paginationNav.last}}
+                    <span  class="pagination-number">{{paginationNav.last}}...</span>
+                {{/if}}
+            </div>
         </ul>
         
     </div> 

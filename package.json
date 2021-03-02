@@ -1,7 +1,6 @@
 {
   "name": "book-shop",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node src/app.js",
@@ -24,5 +23,14 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haimbr/book-shop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/haimbr/book-shop/issues"
+  },
+  "homepage": "https://github.com/haimbr/book-shop#readme",
+  "description": ""
 }
