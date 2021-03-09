@@ -1,7 +1,7 @@
-import {logIn} from './utils/login.js';
-import {signUp} from './utils/signup.js';
-import {logOut} from './utils/logout.js';
-import {updateShoppingCartInCookies} from './utils/shopping-cart.js';
+import { logIn } from './utils/login.js';
+import { signUp } from './utils/signup.js';
+import { logOut } from './utils/logout.js';
+import { updateShoppingCartCookies } from './utils/shopping-cart.js';
 
 
 
@@ -25,7 +25,7 @@ signUpButton.addEventListener('click', () => {
 
 document.body.addEventListener('click', (event) => {
     if (!event.target.classList.contains('backdrop')) return;
-    
+
     loginContainer.style.display = 'none';
     signUpContainer.style.display = 'none';
 })
@@ -50,16 +50,16 @@ const registeredUserIcon = document.querySelector('.registered-user');
 const logoutButton = document.querySelector('.logout-button');
 const unregisteredUser = document.querySelector('.unregistered-user');
 
-if(isUserLoggedIn){
+if (isUserLoggedIn) {
     unregisteredUser.style.display = 'none';
-}else{
+} else {
     registeredUserIcon.style.display = 'none';
 }
 
 registeredUserIcon.addEventListener('click', (event) => {
-    if(logoutButton.style.display !== 'block'){
+    if (logoutButton.style.display !== 'block') {
         logoutButton.style.display = 'block';
-    }else{
+    } else {
         logoutButton.style.display = 'none';
     }
 })
@@ -67,7 +67,7 @@ registeredUserIcon.addEventListener('click', (event) => {
 logoutButton.addEventListener('click', () => {
     logOut();
 })
- 
+
 
 
 
@@ -77,25 +77,30 @@ const cartCount = document.querySelector('.shopping-cart-count')
 
 addToCart.forEach((element) => {
     element.addEventListener('click', async (event) => {
-        const book = event.target.parentNode.parentNode.querySelector('.book-name').innerText;
-        const author = event.target.parentNode.parentNode.querySelector('.book-author').innerText;
-        try{
+        const book = event.path[3].querySelector('.book-name').innerText;
+        const author = event.path[3].querySelector('.book-author').innerText.replace('מחבר:', '');
+
+        try {
             const res = await fetch(`/users/update-shoppingCart?book=${book}&author=${author}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });
 
 
-        const data = await res.json();
-        if(!Array.isArray(data)){
-            updateShoppingCartInCookies(data, 'add')
-        }
-        
-        cartCount.innerText = parseInt(cartCount.innerText) + 1;
+            const data = await res.json();
+            if (!Array.isArray(data)) {
+                updateShoppingCartCookies(data, 'add')
+            }
+
+            cartCount.innerText = parseInt(cartCount.innerText) + 1;
+            if (event.target.classList.contains('buy-now')) {
+                window.location = '/create-shopping-cart';
+            }
             
-        }catch(e){
+        } catch (e) {
             console.log(e);
         }
     })
 })
+
 

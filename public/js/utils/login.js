@@ -26,7 +26,6 @@ export const logIn = async () => {
             passwordError.textContent = data.errors.password;
         }else{
             document.querySelector('.login-container').style.display = 'none';
-            sessionStorage.setItem("shoppingCart", JSON.stringify(data.user.shoppingCart));
             location.reload();
         }
     }catch(e){
