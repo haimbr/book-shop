@@ -1,4 +1,4 @@
-import {isUserLoggedIn} from '../index.js';
+import { isUserLoggedIn } from '../index.js';
 
 
 // handle with changing the quantity of the item
@@ -10,7 +10,7 @@ for (let i = 0; i < quantityButtons.length; i++) {
         const author = bookDetails[1].innerText;
         const quantity = event.path[2].querySelector('p');
         const bookElement = event.path[3];
-        let method = i % 2 === 0 ? "add": "remove"; 
+        let method = i % 2 === 0 ? "add" : "remove";
         updateShoppingCart(quantity, book, author, method, bookElement);
     })
 }
@@ -23,34 +23,34 @@ document.querySelectorAll('.remove-book').forEach((element) => {
         const book = bookElement.querySelector('.book-details').children[0].innerText;
         const author = bookElement.querySelector('.book-details').children[1].innerText;
         updateShoppingCart(quantity, book, author, "removeAll", bookElement);
-    }) 
+    })
 })
 
 
-async function updateShoppingCart(quantity, book, author, method, bookElement){
-    try{
-        const res = await fetch(`/users/update-shoppingCart?book=${book}&author=${author}&${method}=true`, {
+async function updateShoppingCart(quantity, book, author, method, bookElement) {
+    try {
+        const res = await fetch(`/users/update-shoppingCart?book=${book}&author=${author}&method=${method}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
 
         const data = await res.json();
-        if(!data.message && !isUserLoggedIn){
+        if (!data.message && !isUserLoggedIn) {
             updateShoppingCartCookies(data, method)
-        }  
+        }
         updateUiShoppingCart(quantity, book, author, method, bookElement);
-    }catch(e){
+    } catch (e) {
         console.log(e);
     }
 }
 
 
-function updateUiShoppingCart(quantity, book, author, method, bookElement){
+function updateUiShoppingCart(quantity, book, author, method, bookElement) {
     const cartCount = document.querySelector('.shopping-cart-count');
-    const methodFactor = method === "removeAll" ? -parseInt(quantity.innerText): (method === "add" ? 1: -1);
+    const methodFactor = method === "removeAll" ? -parseInt(quantity.innerText) : (method === "add" ? 1 : -1);
     cartCount.innerText = parseInt(cartCount.innerText) + methodFactor;
     quantity.innerText = parseInt(quantity.innerText) + methodFactor;
-    if(quantity.innerText <= 0){
+    if (quantity.innerText <= 0) {
         bookElement.remove();
     }
 
@@ -60,16 +60,16 @@ function updateUiShoppingCart(quantity, book, author, method, bookElement){
 }
 
 
-export function updateShoppingCartCookies(book, method){
-    if(book.message) return;
-    
-    let shoppingCart = getCookie("shoppingCart") !== undefined ? JSON.parse(getCookie("shoppingCart")): [];
-        
-    if(method === 'add'){
+export function updateShoppingCartCookies(book, method) {
+    if (book.message) return;
+
+    let shoppingCart = getCookie("shoppingCart") !== undefined ? JSON.parse(getCookie("shoppingCart")) : [];
+
+    if (method === 'add') {
         shoppingCart.push(book);
-    }else if(method === 'removeAll'){
+    } else if (method === 'removeAll') {
         shoppingCart = shoppingCart.filter(item => item !== book);
-    }else{
+    } else {
         const index = shoppingCart.findIndex(element => element == book)
         if (index >= 0) {
             shoppingCart.splice(index, 1)

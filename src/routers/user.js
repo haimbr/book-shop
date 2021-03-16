@@ -28,7 +28,7 @@ const handleErrors = (err) => {
     if (err.message === 'incorrect password') {
         errors.password = 'That password is incorrect';
     }
-    return errors; 
+    return errors;
 }
 
 router.post('/users/signUp', async (req, res) => {
@@ -76,7 +76,7 @@ router.post('/users/logout', auth, async (req, res) => {
 })
 
 
-router.post('/users/update-shoppingCart', async (req, res) => {
+router.post('/users/update-shoppingCart', checkUser, async (req, res) => {
     try {
         const book = await Book.findOne({ $or: [{ name: req.query.book, author: req.query.author }, { _id: req.query._id }] });
 
@@ -84,28 +84,31 @@ router.post('/users/update-shoppingCart', async (req, res) => {
             throw new Error('Book not found')
         }
 
-        await checkUser(req, res, () => { });
         if (!res.locals.user) {
             return res.send(book._id);
         }
+        updateShoppingCart(req, res, book, req.query.method);
 
-        if (req.query.removeAll) {
-            res.locals.user.shoppingCart = res.locals.user.shoppingCart.filter(item => item._id.toString() != book._id.toString());
-        } else if (req.query.remove) {
-            const index = res.locals.user.shoppingCart.findIndex(item => item._id.toString() === book._id.toString());
-            if (index >= 0) {
-
-                res.locals.user.shoppingCart.splice(index, 1)
-            }
-        } else {
-            res.locals.user.shoppingCart.push(book);
-        }
 
         await res.locals.user.save();
         res.send(res.locals.user.shoppingCart);
     } catch (e) {
-        res.status(404).send({ message: e.message });
+        res.status(404).send("err");
     }
 })
+
+
+function updateShoppingCart(req, res, book, method) {
+    if (method === "removeAll") {
+        res.locals.user.shoppingCart = res.locals.user.shoppingCart.filter(item => item._id.toString() != book._id.toString());
+    } else if (method === "remove") {
+        const index = res.locals.user.shoppingCart.findIndex(item => item._id.toString() === book._id.toString());
+        if (index >= 0) res.locals.user.shoppingCart.splice(index, 1);
+    } else if (method === "add") {
+        res.locals.user.shoppingCart.push(book);
+    }
+}
+
+
 
 module.exports = router;

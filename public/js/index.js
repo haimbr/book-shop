@@ -85,7 +85,7 @@ async function addToCart(event) {
     const author = event.path[3].querySelector('.book-author').innerText.replace('מחבר:', '');
 
     try {
-        const res = await fetch(`/users/update-shoppingCart?book=${book}&author=${author}`, {
+        const res = await fetch(`/users/update-shoppingCart?book=${book}&author=${author}&method=add`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' }
         });
@@ -97,7 +97,7 @@ async function addToCart(event) {
 
         cartCount.innerText = parseInt(cartCount.innerText) + 1;
         if (event.target.classList.contains('buy-now')) {
-            window.location = '/create-shopping-cart';
+            window.location = '/shopping-cart';
         }
 
     } catch (e) {
@@ -134,7 +134,7 @@ if (bookDescription) {
 
 // handle with the pagination
 
-if(document.querySelector('.pagination')){
+if (document.querySelector('.pagination')) {
     const pagination = document.querySelector('.pagination').children;
     for (let item of pagination) {
         item.addEventListener('click', (event) => getRequestedPage(event.target));
@@ -147,9 +147,9 @@ if(document.querySelector('.pagination')){
 function getRequestedPage(paginationElement) {
     const category = document.querySelector('.main-content-header').innerText;
     let requestedPage = parseInt(paginationElement.innerText.replace('...', ''));
-    if(isNaN(requestedPage)){
+    if (isNaN(requestedPage)) {
         const currentPage = parseInt(document.querySelector('.current-page').innerText);
-        requestedPage = currentPage + (paginationElement.classList.contains('pagination-next') ? 1: -1);
+        requestedPage = currentPage + (paginationElement.classList.contains('pagination-next') ? 1 : -1);
     }
     window.location = `/get-books?category=${category}&requestedPage=${requestedPage}`
 }

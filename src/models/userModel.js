@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs');
 const userSchema = new mongoose.Schema({
     userName: {
         type: String,
-        required: true, 
+        required: true,
     },
 
     email: {
@@ -24,8 +24,8 @@ const userSchema = new mongoose.Schema({
         minlength: [6, 'Minimum password length is 6 characters'],
     },
 
-    isAdmin:{
-        type:  Boolean,
+    isAdmin: {
+        type: Boolean,
         default: false,
     },
 
@@ -43,26 +43,26 @@ const userSchema = new mongoose.Schema({
         }
     }],
 
-},{
+}, {
     timestamps: true,
 })
 
 
-userSchema.methods.toJSON = function(){
+userSchema.methods.toJSON = function () {
     const userObject = this.toObject();
     delete userObject.password;
     delete userObject.tokens;
     delete userObject.createdAt;
     delete userObject.updatedAt;
     delete userObject.__v;
-   
+
     return userObject;
 }
 
 
-userSchema.methods.generateAuthToken = async function (){
+userSchema.methods.generateAuthToken = async function () {
     const user = this;
-    const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 });
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 });
 
     user.tokens = user.tokens.concat({ token });
     await user.save()
@@ -78,10 +78,10 @@ userSchema.statics.findByCredentials = async (email, password) => {
     };
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch){
+    if (!isMatch) {
         throw new Error('incorrect password');
     }
-    
+
     return user;
 }
 

@@ -28,7 +28,7 @@ function addSubmitButton() {
     bookContainer.appendChild(submitButton);
     submitButton.addEventListener('click', () => sendChanges())
 }
- 
+
 
 async function deleteBook() {
     try {
@@ -63,10 +63,10 @@ async function sendChanges() {
 }
 
 
-function getNewBookDetails(){
+function getNewBookDetails() {
     const descriptionContainer = document.querySelectorAll('.book-description');
     let description = "";
-    document.querySelectorAll('.book-description').forEach((section) => description += section.innerText + "<br>");
+    descriptionContainer.forEach((section) => description += section.innerText + "<br>");
     return {
         name: document.querySelector('.book-name').innerText,
         author: document.querySelector('.book-author').innerText.replace('מחבר:', ''),

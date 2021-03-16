@@ -30,7 +30,7 @@ router.post('/add-book', checkUser, upload.single('img'), async (req, res) => {
         book.img = `data:image/png;base64,${book.img.toString('base64')}`;
         res.render('index', { books: [book] })
     } catch (err) {
-        res.status(400).send(err);
+        res.status(400).send('something went wrong');
     }
 })
 
@@ -45,7 +45,6 @@ router.patch('/edit-book', checkUser, async (req, res) => {
         await book.save();
         res.send()
     } catch (err) {
-        console.log(err)
         res.status(400).send('something went wrong');
     }
 })
@@ -73,7 +72,7 @@ router.get('/get-books', async (req, res) => {
     getBooks(req, res, searchParameter)
 })
 
- 
+
 
 async function getBooks(req, res, searchParameter) {
     const maxBooksInPage = 2;
@@ -85,14 +84,13 @@ async function getBooks(req, res, searchParameter) {
         const pagination = createPagination(skip + 1, Math.ceil((count / maxBooksInPage)));
         res.render('index', { books, category: req.query.category || "תוצאות חיפוש", pagination })
     } catch (err) {
-        console.log(err)
-        res.status(400).send({ message: err.message });
+        res.status(400).send('something went wrong');
     }
 }
 
 
 
-router.get('/create-shopping-cart', async (req, res) => {
+router.get('/shopping-cart', async (req, res) => {
     try {
         const result = await Book.find({ '_id': { $in: res.locals.shoppingCart } });
         let books = sortObject(result);
@@ -104,7 +102,7 @@ router.get('/create-shopping-cart', async (req, res) => {
         res.render('shopping-cart', { books, totalPrice })
 
     } catch (err) {
-        res.status(400).send({ message: err.message });
+        res.status(400).send('something went wrong');
     }
 })
 
@@ -115,7 +113,7 @@ router.get('/book-details', async (req, res) => {
         book.img = `data:image/png;base64,${book.img.toString('base64')}`
         res.render('book-details', { book })
     } catch (e) {
-        res.status(400).send({ message: err.message });
+        res.status(400).send('something went wrong');
     }
 });
 
@@ -128,12 +126,12 @@ router.get('/', async (req, res) => {
 
 
 function createPagination(currentPage, pagesSize) {
-    const pagination  = { pagesList: [] };
+    const pagination = { pagesList: [] };
 
-    pagination.previous = currentPage !== 1 ? true: false;
-    pagination.next = currentPage !== pagesSize ? true: false;
-    pagination.first = currentPage > 3 ? 1: null;
-    pagination.last = pagesSize - currentPage > 2 ? pagesSize: null;
+    pagination.previous = currentPage !== 1 ? true : false;
+    pagination.next = currentPage !== pagesSize ? true : false;
+    pagination.first = currentPage > 3 ? 1 : null;
+    pagination.last = pagesSize - currentPage > 2 ? pagesSize : null;
 
     const firstPage = Math.max(1, (pagesSize - (currentPage - 2) >= 4 ? currentPage - 2 : pagesSize - 4))
 

@@ -11,7 +11,7 @@ const { auth, checkUser } = require('./middleware/auth');
 const app = express();
 const port = process.env.PORT;
 
- 
+
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views');
