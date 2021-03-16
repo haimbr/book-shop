@@ -269,8 +269,6 @@ html{
 }
 
 
-
-
 .book-name, .book-img{
     cursor: pointer;
 }
@@ -279,22 +277,4 @@ html{
 .books-details button{
     height: 50px;
     width: 100px;
-}
-
-.add-new-book{
-    display: flex;
-}
-
-.add-new-book span{
-    margin: 10px;
-}
-
-
-@media (max-width: 650px){
-    .books-details{
-        display: block;
-    }
-    .books-details img{
-        width: 100%;
-    }
 }

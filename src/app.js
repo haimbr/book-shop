@@ -11,7 +11,7 @@ const { auth, checkUser } = require('./middleware/auth');
 const app = express();
 const port = process.env.PORT;
 
-
+ 
 // Define paths for Express config
 const publicDirectoryPath = path.join(__dirname, '../public');
 const viewsPath = path.join(__dirname, '../templates/views');
@@ -32,24 +32,6 @@ app.use(express.json());
 app.get('*', checkUser);
 app.use(userRouter);
 app.use(bookRouter);
-
-
-app.get('/', async (req, res) =>{
-    try{
-        const books = await Book.find({}).limit(20);
-        books.forEach(book => book.img = `data:image/png;base64,${book.img.toString('base64')}`);
-        res.render('index', {books, category: "הנמכרים ביותר"})
-    }catch(e){  
-        console.log(e) 
-        res.status(400).send({message: err.message});
-    }
-    
-});
-
-
-app.get('/about', (req, res) => res.render('about'));  
-
-app.get('/help', (req, res) => res.render('help'));
 
 
 app.listen(port, () => {

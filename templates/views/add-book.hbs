@@ -1,47 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>book shop</title>
+    <link rel="shortcut icon" href="/img/logo.png">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/add-book.css">
 </head>
-<body>
-    <h1>hhh</h1>
 
-    <form action="/add-book" method="POST" enctype="multipart/form-data">
-        <input type="text" name="name" placeholder="name"><br>
-        <textarea name="description" placeholder="description"></textarea><br>
-        <input type="text" name="author" placeholder="author"><br>
-        <input type="text" name="price" placeholder="price"><br>
-        <label>חדשים</label>
-        <input type="checkbox" name="categories" value="חדשים"><br>
-        <label>ביוגרפיה</label>
-        <input type="checkbox" name="categories" value="ביוגרפיה"><br>
-        <label>מבצעי החודש</label>
-        <input type="checkbox" name="categories" value="מבצעי החודש"><br>
-        <label>פרוזה</label>
-        <input type="checkbox" name="categories" value="פרוזה"><br>
-        <label>מתח</label>
-        <input type="checkbox" name="categories" value="מתח"><br>
-        <label>מד"ב ופנטזיה</label>
-        <input type="checkbox" name="categories" value='מד"ב ופנטזיה'><br>
-        <label>רומנטיקה</label>
-        <input type="checkbox" name="categories" value="רומנטיקה"><br>
-        <label>שירה</label>
-        <input type="checkbox" name="categories" value="שירה"><br>
-        <label>עיון</label>
-        <input type="checkbox" name="categories" value="עיון"><br>
-        <label>ילדים</label>
-        <input type="checkbox" name="categories" value="ילדים"><br>
-        <label>נוער</label>
-        <input type="checkbox" name="categories" value="נוער"><br>
-        <label>פרוזה</label>
-        <input type="checkbox"name="categories" value="פרוזה"><br>
-        <label>רוחניות, מדיטציה ורוגע</label>
-        <input type="checkbox"name="categories" value="רוחניות, מדיטציה ורוגע"><br>
-        <input type="file" name="img">
-        <button type="submit">submit</button>
-    </form>
+<body>
+    {{>header}}
+    {{>login}}
+    {{>signup}}
+
+    <div class="main-body-content">
+        <h1 class="aaaa">הוסף ספר</h1>
+        <form class="add-new-book" action="/add-book" method="POST" enctype="multipart/form-data">
+            <span>
+                <input type="text" name="name" placeholder="שם הספר" required><br>
+                <textarea name="description" placeholder="תיאור" required></textarea><br>
+                <input type="text" name="author" placeholder="מחבר" required><br>
+                <input type="number" name="price" placeholder="מחיר" required><br>
+            </span>
+            <span>
+                <h3>קטגוריות</h3>
+                <label>חדשים</label>
+                <input type="checkbox" name="categories" value="חדשים"><br>
+                <label>ביוגרפיה</label>
+                <input type="checkbox" name="categories" value="ביוגרפיה"><br>
+                <label>מבצעי החודש</label>
+                <input type="checkbox" name="categories" value="מבצעי החודש"><br>
+                <label>פרוזה</label>
+                <input type="checkbox" name="categories" value="פרוזה"><br>
+                <label>מתח</label>
+                <input type="checkbox" name="categories" value="מתח"><br>
+                <label>מד"ב ופנטזיה</label>
+                <input type="checkbox" name="categories" value='מד"ב ופנטזיה'><br>
+                <label>רומנטיקה</label>
+                <input type="checkbox" name="categories" value="רומנטיקה"><br>
+                <label>שירה</label>
+                <input type="checkbox" name="categories" value="שירה"><br>
+                <label>עיון</label>
+                <input type="checkbox" name="categories" value="עיון"><br>
+                <label>ילדים</label>
+                <input type="checkbox" name="categories" value="ילדים"><br>
+                <label>נוער</label>
+                <input type="checkbox" name="categories" value="נוער"><br>
+                <label>פרוזה</label>
+                <input type="checkbox" name="categories" value="פרוזה"><br>
+                <label>רוחניות, מדיטציה ורוגע</label>
+                <input type="checkbox" name="categories" value="רוחניות, מדיטציה ורוגע"><br>
+                <input type="file" name="img" required>
+                <button type="submit">הוסף את הספר</button>
+            </span>
+
+        </form>
+    </div>
+
+    {{>footer}}
+    <script type="module" src="/js/index.js"></script>
 </body>
+
 </html>

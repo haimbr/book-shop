@@ -1,70 +1,67 @@
 <div class="main-header_container">
     <link rel="stylesheet" href="/css/header.css">
     <header>
-    <div class="main-header">
-        <a href="/">
-            <img class="logo-icon" src="img/logo.png" alt="logo">
-            <h4>book-shop</h4>
-        </a>     
-
-        <div class="header__main-content">
-            <div class="login-and-signup">    
-                <span class="registered-user">
-                    <span class="logout-button" >התנתקות</span>
-                    <span class="user-name">
-                        {{#if user.userName}}
+        <div class="main-header">
+            <div class="header__main-content">
+                <a class="header_logo" href="/">
+                    <img class="logo-icon" src="img/logo.png" alt="logo">
+                    <h4>book-shop</h4>
+                </a>
+                <div class="login-and-signup">
+                    <span class="registered-user">
+                        <span class="logout-button">התנתקות</span>
+                        <span class="user-name">
+                            {{#if user.userName}}
                             <h5 class="user-logged-in"> שלום {{user.userName}}</h5>
-                        {{/if}}
+                            {{/if}}
+                        </span>
+                        <img src="./img/down.png" alt="down icon" />
                     </span>
-                    <img src="./img/down.png" alt="down icon" />
-                </span>
-            
-                <span class="unregistered-user">
-                    <h5> שלום אורח !</h5>
-                    <p><i>כניסה לחשבון </i><i> / הרשמה </i></p>
-                </span>
-            </div>  
 
-            <div class="search-box-container">
-                <input type="text" placeholder="חיפוש" class="search-box">
-                <button type="submit" class="submit-search"><img src="img/search.png"></button>
-            </div>  
+                    <span class="unregistered-user">
+                        <h5> שלום אורח !</h5>
+                        <p><i>כניסה לחשבון </i><i> / הרשמה </i></p>
+                    </span>
+                </div>
 
-            <a href="/create-shopping-cart">
-                <div class="shopping-cart">
+                <div class="search-box-container">
+                    <form action="/get-books">
+                        <input type="text" placeholder="חיפוש" name="search" class="search-box">
+                        <button type="submit" class="submit-search"><img src="img/search.png"></button>
+                    </form>
+                </div>
+
+                <a class="shopping-cart" href="/create-shopping-cart">
                     {{#if shoppingCart}}
                     <div class="shopping-cart-count">{{shoppingCart.length}}</div>
                     {{else}}
-                        <div class="shopping-cart-count">0</div>
+                    <div class="shopping-cart-count">0</div>
                     {{/if}}
                     <img src="img/shopping-cart.png" alt="shopping-cart-icon">
-                
                     <p>הסל שלי</p>
-                </div>
-            </a>
-            
+                </a>
 
-        </div>     
-        
-        <div class="main-nav">
-            <ul>
-                <li><a href="">צור קשר</a></li>
-                <li><a href="/get-books?category=חדשים">חדשים</a></li>
-                <li><a href="/get-books?category=ביוגרפיה">ביוגרפיה</a></li>
-                <li><a href="/get-books?category=מבצעי החודש">מבצעי החודש</a></li>
-                <li><a href="/get-books?category=פרוזה">פרוזה</a></li>
-                <li><a href="/get-books?category=מתח">מתח</a></li>
-                <li><a href='/get-books?category=מד"ב ופנטזיה'>מד"ב ופנטזיה</a></li>
-                <li><a href="/get-books?category=רומנטיקה">רומנטיקה</a></li>
-                <li><a href="/get-books?category=שירה">שירה</a></li>
-                <li><a href="/get-books?category=עיון">עיון</a></li>
-                <li><a href="/get-books?category=ילדים">ילדים</a></li>
-                <li><a href="/get-books?category=נוער">נוער</a></li>
-                <li><a href="/get-books?category=פנאי">פנאי</a></li>
-                <li><a href="/get-books?category=רוחניות מדיטציה ורוגע">רוחניות, מדיטציה ורוגע</a></li>
-            </ul>
+
+            </div>
+
+            <div class="main-nav">
+                <ul>
+                    <li><a href="">צור קשר</a></li>
+                    <li><a href="/get-books?category=חדשים">חדשים</a></li>
+                    <li><a href="/get-books?category=ביוגרפיה">ביוגרפיה</a></li>
+                    <li><a href="/get-books?category=מבצעי החודש">מבצעי החודש</a></li>
+                    <li><a href="/get-books?category=פרוזה">פרוזה</a></li>
+                    <li><a href="/get-books?category=מתח">מתח</a></li>
+                    <li><a href='/get-books?category=מד"ב ופנטזיה'>מד"ב ופנטזיה</a></li>
+                    <li><a href="/get-books?category=רומנטיקה">רומנטיקה</a></li>
+                    <li><a href="/get-books?category=שירה">שירה</a></li>
+                    <li><a href="/get-books?category=עיון">עיון</a></li>
+                    <li><a href="/get-books?category=ילדים">ילדים</a></li>
+                    <li><a href="/get-books?category=נוער">נוער</a></li>
+                    <li><a href="/get-books?category=פנאי">פנאי</a></li>
+                    <li><a href="/get-books?category=רוחניות מדיטציה ורוגע">רוחניות, מדיטציה ורוגע</a></li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <script src="/js/header.js"></script>
-</header>
+    </header>
 </div>

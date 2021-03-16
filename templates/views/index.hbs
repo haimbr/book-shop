@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="shortcut icon" href="/img/logo.png">
     <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
     {{>header}}
     {{>login}}
@@ -18,42 +20,51 @@
         </h2>
         <ul class="books_list">
             {{#each books}}
+            <span>
                 <div class="book-element">
-                    <a href=""><img src="{{this.img}}" alt="book-img"></a>
-                    <a href=""><h1 class="book-name">{{this.name}}</h1></a>
+                    <a href=""><img class="book-img" src="{{this.img}}" alt="book-img"></a>
+                    <a href="">
+                        <h1 class="book-name book-name-link">{{this.name}}</h1>
+                    </a>
                     <h3 class="book-author">{{this.author}}</h3>
+                    <p>&#8362;{{this.price}}</p>
                     <div class="add-to-cart">
                         <button class="buy-now">קנייה מהירה</button>
                         <button>הוספה לסל</button>
                     </div>
                 </div>
+            </span>
             {{/each}}
             <div class="pagination">
-                {{#if paginationNav.first}}
-                    <span class="pagination-number">...1</span>
+                {{#if pagination.first}}
+                <span class="pagination-number">...1</span>
                 {{/if}}
-                {{#if paginationNav.previous}}
-                    <i class="pagination-prev">></i>
-                    <span class="pagination-prev">הקודם</span>
+                {{#if pagination.previous}}
+                <i class="pagination-prev">></i>
+                <span class="pagination-prev">הקודם</span>
                 {{/if}}
-                {{#each paginationNav.pages}}
-                    <span  class="pagination-number">{{this}}</span>
+                {{#each pagination.pagesList}}
+                    {{#if this.currentPage}}
+                    <span class="pagination-number current-page">{{this.currentPage}}</span>
+                    {{else}}  
+                    <span class="pagination-number">{{this.pageNumber}}</span>
+                    {{/if}}
                 {{/each}}
-                {{#if paginationNav.next}}
-                    <span class="pagination-next">הבא</span>
-                    <i>></i>
+                {{#if pagination.next}}
+                <span class="pagination-next">הבא</span>
+                <i>></i>
                 {{/if}}
-                {{#if paginationNav.last}}
-                    <span  class="pagination-number">{{paginationNav.last}}...</span>
+                {{#if pagination.last}}
+                <span class="pagination-number">{{pagination.last}}...</span>
                 {{/if}}
             </div>
         </ul>
-        
-    </div> 
+
+    </div>
 
     {{>footer}}
 
-    <script  type="module" src="/js/index.js"></script>
+    <script type="module" src="/js/index.js"></script>
 </body>
-</html>
 
+</html>

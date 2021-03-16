@@ -1,0 +1,10 @@
+
+body{
+    direction: rtl;
+}
+
+textarea {
+    resize: none;
+    height: 300px;
+    width: 173px;
+}

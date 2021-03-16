@@ -11,8 +11,8 @@ const upload = multer({
     limits: {
         fileSize: 1000000
     },
-    fileFilter(req, file, cb){
-        if(!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png)$/)){
+    fileFilter(req, file, cb) {
+        if (!file.originalname.toLowerCase().match(/\.(jpg|jpeg|png)$/)) {
             return cb(new Error('Please upload an image'))
         }
         cb(undefined, true)
@@ -20,112 +20,142 @@ const upload = multer({
 })
 
 
-router.post('/add-book', upload.single('img'), async (req, res) => {
-    const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250 }).png().toBuffer();
+router.post('/add-book', checkUser, upload.single('img'), async (req, res) => {
+    if (!res.locals.user || !res.locals.user.isAdmin) return res.send('You have to log in as an admin');
+    const buffer = await sharp(req.file.buffer).png().toBuffer();
     req.body.img = buffer;
     const book = new Book(req.body);
     try {
         await book.save();
-        res.send(book)
+        book.img = `data:image/png;base64,${book.img.toString('base64')}`;
+        res.render('index', { books: [book] })
     } catch (err) {
-        console.log(err);
         res.status(400).send(err);
     }
 })
 
 
-router.get('/get-books', async (req, res) => {
-    const category = req.query.category;
-    const page = req.query.page || 0;
-    try{
-        const count = await Book.countDocuments({categories: category});
-        const books = await Book.find({categories: category}).skip(page).limit(20);      
-        books.forEach(book => book.img = `data:image/png;base64,${book.img.toString('base64')}`);
-        const paginationNav = createPagesNavigation(page+1, Math.ceil((count/20)))
-        res.render('index', { books, category, paginationNav })
-    }catch(err){
-        res.status(400).send({message: err.message});
-    }  
+router.patch('/edit-book', checkUser, async (req, res) => {
+    if (!res.locals.user || !res.locals.user.isAdmin) return res.send('You have to log in as an admin');
+    try {
+        const book = await Book.findOne({ name: req.body.bookName, author: req.body.bookAuthor });
+        for (let update in req.body.bookDetails) {
+            book[update] = req.body.bookDetails[update];
+        }
+        await book.save();
+        res.send()
+    } catch (err) {
+        console.log(err)
+        res.status(400).send('something went wrong');
+    }
 })
+
+
+router.delete('/delete-book', checkUser, async (req, res) => {
+    if (!res.locals.user || !res.locals.user.isAdmin) return res.send('You have to log in as an admin');
+    try {
+        const book = await Book.findOneAndDelete({ name: req.body.bookName, author: req.body.bookAuthor });
+        if (!book) return res.status(404).send();
+        res.send()
+    } catch (err) {
+        res.status(400).send('something went wrong');
+    }
+})
+
+
+router.get('/get-books', async (req, res) => {
+    let searchParameter;
+    if (req.query.category) {
+        searchParameter = { categories: req.query.category };
+    } else {
+        searchParameter = { $or: [{ name: new RegExp(req.query.search, "g") }, { author: new RegExp(req.query.search, "g") }] }
+    }
+    getBooks(req, res, searchParameter)
+})
+
  
 
-router.post('/search-books', async (req, res) => {
-    try{
-        const books = await Book.find({ $or: [{ name: req.query.category }, { author: req.body.author }] });
+async function getBooks(req, res, searchParameter) {
+    const maxBooksInPage = 2;
+    const skip = req.query.requestedPage - 1 || 0;
+    try {
+        const count = await Book.countDocuments(searchParameter);
+        const books = await Book.find(searchParameter).skip(maxBooksInPage * skip).limit(maxBooksInPage);
         books.forEach(book => book.img = `data:image/png;base64,${book.img.toString('base64')}`);
-        res.send(books)
-    }catch(err){
-        res.status(400).send({message: err.message});
-    }   
-})
+        const pagination = createPagination(skip + 1, Math.ceil((count / maxBooksInPage)));
+        res.render('index', { books, category: req.query.category || "תוצאות חיפוש", pagination })
+    } catch (err) {
+        console.log(err)
+        res.status(400).send({ message: err.message });
+    }
+}
 
 
 
 router.get('/create-shopping-cart', async (req, res) => {
-    // if(!res.locals.shoppingCart){
-    //     console.log('no shoppingCart in req.cookies')
-    //     return res.render('shopping-cart')
-    // }    
-
-    try{
-        const result = await Book.find({ '_id': { $in: res.locals.shoppingCart } });      
+    try {
+        const result = await Book.find({ '_id': { $in: res.locals.shoppingCart } });
         let books = sortObject(result);
-        books.forEach(book =>{
-            book.quantity =  res.locals.shoppingCart.filter(id => id == book._id).length;           
+        let totalPrice = 0;
+        books.forEach(book => {
+            book.quantity = res.locals.shoppingCart.filter(id => id == book._id).length;
+            totalPrice += book.price * book.quantity;
         });
-        res.render('shopping-cart', { books })
+        res.render('shopping-cart', { books, totalPrice })
 
-    }catch(err){
-        res.status(400).send({message: err.message});
-    }   
+    } catch (err) {
+        res.status(400).send({ message: err.message });
+    }
 })
 
 
+router.get('/book-details', async (req, res) => {
+    try {
+        const book = await Book.findOne({ name: req.query.book, author: req.query.author });
+        book.img = `data:image/png;base64,${book.img.toString('base64')}`
+        res.render('book-details', { book })
+    } catch (e) {
+        res.status(400).send({ message: err.message });
+    }
+});
 
 
-function createPagesNavigation(currentPage, pages){
-    const nav = {
-        currentPage,
-        previous: false,
-        next: false,
-        first: null,
-        last: null,
-        pages: []
-    };
 
-    if(currentPage !== 1){
-        nav.previous = true;
-    }
-    if (currentPage !== pages){
-        nav.next = true;
-    }
-    if(currentPage > 2){
-        nav.first = 1;
-    }
-    if (pages - currentPage > 1){
-        nav.last = pages;
-    }
+router.get('/', async (req, res) => {
+    req.query.category = "הנמכרים ביותר"
+    getBooks(req, res, {})
+})
 
-    let firstPage = Math.max(1, currentPage-2);
-    for(let i = firstPage; i < firstPage + 5 && i<pages; i++){
-        nav.pages.push(i);
-    }
 
-    return nav;
+function createPagination(currentPage, pagesSize) {
+    const pagination  = { pagesList: [] };
+
+    pagination.previous = currentPage !== 1 ? true: false;
+    pagination.next = currentPage !== pagesSize ? true: false;
+    pagination.first = currentPage > 3 ? 1: null;
+    pagination.last = pagesSize - currentPage > 2 ? pagesSize: null;
+
+    const firstPage = Math.max(1, (pagesSize - (currentPage - 2) >= 4 ? currentPage - 2 : pagesSize - 4))
+
+    for (let i = firstPage; i < firstPage + 5 && i <= pagesSize; i++) {
+        pagination.pagesList[pagination.pagesList.length] = (i !== currentPage ? { pageNumber: i } : { currentPage });
+    }
+    return pagination;
 }
 
 
-function sortObject(obj){
+function sortObject(obj) {
     let books = []
-    obj.forEach(book =>{
+    obj.forEach(book => {
         books.push({
             img: `data:image/png;base64,${book.img.toString('base64')}`,
             name: book.name,
             author: book.author,
             price: book.price,
             _id: book._id,
+            description: book.description
         })
-    } );
+    });
     return books;
 }
 

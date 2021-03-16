@@ -28,7 +28,7 @@ const handleErrors = (err) => {
     if (err.message === 'incorrect password') {
         errors.password = 'That password is incorrect';
     }
-    return errors;
+    return errors; 
 }
 
 router.post('/users/signUp', async (req, res) => {
@@ -38,7 +38,7 @@ router.post('/users/signUp', async (req, res) => {
         await user.save();
         sendWelcomeEmail(user.email, user.name);
         const token = await user.generateAuthToken();
-        res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 60 * 60 * 1000})
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 60 * 60 * 1000 })
         res.status(201).send({ user, token });
     } catch (err) {
         const errors = handleErrors(err);
@@ -54,7 +54,7 @@ router.post('/users/login', async (req, res) => {
     try {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken();
-        res.cookie('jwt', token, {httpOnly: true, maxAge: 3 * 60 * 60 * 1000});
+        res.cookie('jwt', token, { httpOnly: true, maxAge: 3 * 60 * 60 * 1000 });
         res.send({ user, token });
     } catch (err) {
         const errors = handleErrors(err);
@@ -68,7 +68,7 @@ router.post('/users/logout', auth, async (req, res) => {
             return token.token !== req.token
         })
         await req.user.save()
-        res.cookie('jwt', '', {maxAge: 1});
+        res.cookie('jwt', '', { maxAge: 1 });
         res.send()
     } catch (e) {
         res.status(500).send()
@@ -78,32 +78,33 @@ router.post('/users/logout', auth, async (req, res) => {
 
 router.post('/users/update-shoppingCart', async (req, res) => {
     try {
-        const book = await Book.findOne({ $or: [ {name: req.query.book, author: req.query.author},  {_id: req.query._id} ] });
-        if(!book){
+        const book = await Book.findOne({ $or: [{ name: req.query.book, author: req.query.author }, { _id: req.query._id }] });
+
+        if (!book) {
             throw new Error('Book not found')
         }
 
-        await checkUser(req, res, ()=>{});
-        if(!res.locals.user){
+        await checkUser(req, res, () => { });
+        if (!res.locals.user) {
             return res.send(book._id);
         }
 
-        if(req.query.removeAll){
-            res.locals.user.shoppingCart = res.locals.user.shoppingCart.filter(element => element._id !== book._id)
-        }else if(req.query.remove){
+        if (req.query.removeAll) {
+            res.locals.user.shoppingCart = res.locals.user.shoppingCart.filter(item => item._id.toString() != book._id.toString());
+        } else if (req.query.remove) {
             const index = res.locals.user.shoppingCart.findIndex(item => item._id.toString() === book._id.toString());
             if (index >= 0) {
-                
+
                 res.locals.user.shoppingCart.splice(index, 1)
             }
-        }else{
+        } else {
             res.locals.user.shoppingCart.push(book);
         }
-        
+
         await res.locals.user.save();
         res.send(res.locals.user.shoppingCart);
-    }catch(e) {
-        res.status(404).send({message: e.message});
+    } catch (e) {
+        res.status(404).send({ message: e.message });
     }
 })
 

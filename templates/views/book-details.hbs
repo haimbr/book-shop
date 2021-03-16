@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>book shop</title>
+    <link rel="shortcut icon" href="/img/logo.png">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    {{>header}}
+    {{>login}}
+    {{>signup}}
+
+    <div class="main-body-content">
+        {{#if user.isAdmin}}
+        <button class="edit-book">עריכה מהירה</button>
+        <button class="delete-book">מחק את הספר</button>
+        {{/if}}
+        <div class="books-details">
+            <span class="book-details__first-section">
+                <img class="book-details-img" src="{{book.img}}" alt="book-img">
+                <div>
+                    <h3>מחיר</h3>
+                    <h2 class="book-price">{{book.price}} &#8362;</h2>
+                    <span></span>
+                </div>
+                <div class="add-to-cart">
+                    <button class="buy-now">קנייה מהירה</button>
+                    <button>הוספה לסל</button>
+                </div>
+            </span>
+
+            <span class="books-details__description">
+
+                <h1 class="book-name">{{book.name}}</h1>
+                <h4 class="book-author"> מחבר: {{book.author}}</h4>
+
+                <p class="book-description">{{book.description}}</p>
+
+            </span>
+
+        </div>
+    </div>
+    {{>footer}}
+
+    <script type="module" src="/js/index.js"></script>
+    {{#if user.isAdmin}}
+    <script type="module" src="/js/utils/edit-books.js"></script>
+    {{/if}}
+</body>
+
+</html>

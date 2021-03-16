@@ -18,46 +18,42 @@
 }
 
 .logo-icon{
+    vertical-align: top;
     height: 35px;
     width: 35px;
+    /* margin: 20px 20px 0px 0px; */
 }
 
 .main-header{
     width: 100%;
-    position: relative;
     background-color: white;
 }
 
-.header_logo{position: relative;display: inline-block;color: black;text-decoration: none;top: 10px;margin-left: 15px;}
+.main-header a{
+    text-decoration: none;
+    color: black;
+}
 
-.main-header h5{display: inline-block;}
+.main-header div, .main-header p, .main-header h5, .main-header .search-form{
+    display: inline-block;
+    /* height: 50px; */
+    vertical-align: middle;
+    /* margin: 10px 10px 10px 10px; */
+}
+.main-header h5{
+    margin-left: 0px;
+}
 .main-header h4{
     display: inline-block;
     position: relative;
     left: 10px;
-    top: -8px;
-    /* vertical-align: bottom; */
+    vertical-align: bottom;
     font-size: 21px;
 }
 
-.login-and-signup{
-    display: inline-block;
-}
-
-.unregistered-user{
-    display: inline-block;
-    margin-left: 10px;
-}
-
-.unregistered-user p{
-    display: inline-block;
-}
 
 .login-and-signup i {
     cursor: pointer;
-}
-
-.shopping-cart-container{
 }
 
 
@@ -106,17 +102,19 @@
 }
 
 
-.header__main-content{padding: 5px;}
+.header__main-content{
+    float: left;
+    vertical-align: bottom;
+}
 
 
 .search-box-container{
     background-color: #6658a9;
-    display: inline-block;
-    margin: 5px;
+    margin-left: 25px;
 }
 
 .search-box-container form{
-    height: 45px;
+    height: 100%;
 }
 
 .search-box{
@@ -125,7 +123,7 @@
     font-size: 1.2rem;
     font-weight: 500;
     height: 100%;
-    /* width: 30vw; */
+    width: 30vw;
     border: none;
 }
 
@@ -144,20 +142,15 @@
 
 
 .shopping-cart{
-    position: relative;
-    top: 10px;
-    text-decoration: none;
-    display: inline-block;
+    margin: 10px;
     cursor: pointer;
-    float: left;
 }
 
 .shopping-cart img{
     height: 30px;
     margin: auto;
     position: relative;
-    left: 15px;
-    top: 5px;
+    left: 20px;
 }
 
 .shopping-cart-count{
@@ -175,11 +168,9 @@
 
 .shopping-cart p{
     position: relative;
-    display: inline-block;
     padding: 7px 0px;
     left: 8px;
     font-size: 16px;
-    color: #1c9bd2;
 }
 
 

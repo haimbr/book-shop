@@ -28,7 +28,6 @@ document.querySelectorAll('.remove-book').forEach((element) => {
 
 
 async function updateShoppingCart(quantity, book, author, method, bookElement){
-    const cartCount = document.querySelector('.shopping-cart-count');
     try{
         const res = await fetch(`/users/update-shoppingCart?book=${book}&author=${author}&${method}=true`, {
             method: 'POST',
@@ -37,25 +36,39 @@ async function updateShoppingCart(quantity, book, author, method, bookElement){
 
         const data = await res.json();
         if(!data.message && !isUserLoggedIn){
-            updateShoppingCartInCookies(data, method)
+            updateShoppingCartCookies(data, method)
         }  
-
-        const methodFactor = method === "removeAll" ? -parseInt(quantity.innerText): (method === "add" ? 1: -1);
-        cartCount.innerText = parseInt(cartCount.innerText) + methodFactor;
-        quantity.innerText = parseInt(quantity.innerText) + methodFactor;
-        if(quantity.innerText <= 0)
-            bookElement.remove();
+        updateUiShoppingCart(quantity, book, author, method, bookElement);
     }catch(e){
         console.log(e);
     }
 }
 
 
-export function updateShoppingCartInCookies(book, method){
+function updateUiShoppingCart(quantity, book, author, method, bookElement){
+    const cartCount = document.querySelector('.shopping-cart-count');
+    const methodFactor = method === "removeAll" ? -parseInt(quantity.innerText): (method === "add" ? 1: -1);
+    cartCount.innerText = parseInt(cartCount.innerText) + methodFactor;
+    quantity.innerText = parseInt(quantity.innerText) + methodFactor;
+    if(quantity.innerText <= 0){
+        bookElement.remove();
+    }
+
+    const totalPrice = parseInt(document.querySelector('.total-price').innerText);
+    const newPrice = totalPrice + parseInt(bookElement.querySelector('.book-details p').innerText) * methodFactor;
+    document.querySelector('.total-price').innerText = newPrice;
+}
+
+
+export function updateShoppingCartCookies(book, method){
+    if(book.message) return;
+    
     let shoppingCart = getCookie("shoppingCart") !== undefined ? JSON.parse(getCookie("shoppingCart")): [];
         
     if(method === 'add'){
         shoppingCart.push(book);
+    }else if(method === 'removeAll'){
+        shoppingCart = shoppingCart.filter(item => item !== book);
     }else{
         const index = shoppingCart.findIndex(element => element == book)
         if (index >= 0) {

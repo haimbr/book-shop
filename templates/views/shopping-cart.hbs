@@ -17,10 +17,10 @@
             <h1>סל הקניות שלי</h1>
             {{#each books}}
                 <div class="shopping-cart-element">
-                    <img src="{{this.img}}" alt="book-img">
+                    <span><img class="book-img" src="{{this.img}}" alt="book-img"></span>
                     <span class="book-details">
-                        <h2>{{this.name}}</h2>
-                        <h3>{{this.author}}</h3>
+                        <h2 class="book-name">{{this.name}}</h2>
+                        <h3 class="book-author">{{this.author}}</h3>
                         <p>{{this.price}} &#8362;</p>
                     </span> 
                     <span class="quantity-container">
@@ -33,6 +33,8 @@
                     <span class="remove-book">x</span>                  
                 </div>
             {{/each}}
+            <span class="total-price__line"></span>
+            <p class="total-price-container">סך הכל: &nbsp; &nbsp; &nbsp; &nbsp; <b>&#8362;<i class="total-price">{{totalPrice}}</i></b></p>
        </div>
     </div> 
 

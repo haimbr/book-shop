@@ -21,11 +21,12 @@
     position: relative;
 }
 
-
-
+/* .shopping-cart-container ~ span{
+    padding: 10px;
+} */
 
 .shopping-cart-container img{
-    height: 100%;
+    height: 100px;
     width: 70px;
     vertical-align: middle;
     /* margin: 15px; */
@@ -42,16 +43,13 @@
 .book-details p {
     color: #1c9bcf;
     font-weight: bold;
-    margin-top: 10px;
+    margin-top: 25px;
     font-size: 17px;
 }
 
-
-
-
 .quantity-container p{
     display: inline-block;
-    margin: 4px;
+    margin: 10px;
 }
 
 .quantity-buttons{
@@ -83,28 +81,6 @@
     text-align: center;
     border-radius: 5px;
     cursor: pointer;
-}
-
-@media (max-width: 650px){
-    .shopping-cart-element{
-        padding: 6px;
-    }
-    .book-details{
-        font-size: 0.7rem;
-        margin: 5px;
-    }
-    .quantity-container p{
-        margin: 4px;
-    }
-    .quantity-buttons span{
-        padding: 3px 5px;
-    }
-    .remove-book{
-        position: relative;
-        width: auto;
-        padding: 0px 5px;
-        top: 11px;
-    }
 }
 
 .total-price__line{
