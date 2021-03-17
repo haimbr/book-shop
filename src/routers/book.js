@@ -75,7 +75,7 @@ router.get('/get-books', async (req, res) => {
 
 
 async function getBooks(req, res, searchParameter) {
-    const maxBooksInPage = 2;
+    const maxBooksInPage = 8;
     const skip = req.query.requestedPage - 1 || 0;
     try {
         const count = await Book.countDocuments(searchParameter);
